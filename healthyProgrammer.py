@@ -1,6 +1,14 @@
 # 200 ml water = 3.5 litre water
-import time
+from datetime import datetime
+from time import time
 from pygame import mixer
+
+def isOfficeTime(currentTime):
+    if isOfficeTime > '09:00:00' and isOfficeTime < '17:00:01':
+        return True
+    else:
+        return False
+     
 
 
 def playMusic(file,stopper):
@@ -13,69 +21,46 @@ def playMusic(file,stopper):
             mixer.music.stop()
             break
 
-# def drinkWater(file,stopper):
-#     # mixer.init()
-#     # mixer.music.load(file)
-#     # mixer.music.play(-1)  #-1 is used for making it indefinate loop
-#     # while True:
-#     #     a = input()
-#     #     if a == stopper:
-#     #         mixer.music.stop()
-#     #         break
-#     # i = "nd"
-#     # while(i!="d"):
-#     #     print("Drink Water")
-#     #     i =input("Hit d for Done").lower()
+def log(msg):
+    with open("mayank.txt","a") as f:
+        f.write(f"{msg} {datetime.now()}\n")
 
-
-
-# def eyeExer():
-#     # mixer.init()
-#     # mixer.music.load(file)
-#     # mixer.music.play(-1)  #-1 is used for making it indefinate loop
-#     # while True:
-#     #     a = input()
-#     #     if a == stopper:
-#     #         mixer.music.stop()
-#     #         break
-#     # i = "nd"
-#     # while(i!="d"):
-#         # print("Eye Exercise")
-#         # i =input("Hit d for Done").lower()
-
-# def physicalActivity():
-#     # mixer.init()
-#     # mixer.music.load(file)
-#     # mixer.music.play(-1)  #-1 is used for making it indefinate loop
-#     # while True:
-#     #     a = input()
-#     #     if a == stopper:
-#     #         mixer.music.stop()
-#     #         break
-#     # i = "nd"
-#     # while(i!="d"):
-#         # print("Physical activity")
-#         # i =input("Hit d for Done").lower()
-
-a = time.localtime()
-b = 2
-while (a.tm_min>18):
-    a = time.localtime()
-    if a.tm_min < 38:
-        # main program is under here   
-        if b == a.tm_sec:
-            print("under loop  1")
+if __name__ == '__main__':
+    init_water = time()
+    init_eyes = time()
+    init_exercise = time()
+    waterSec = 5
+    exerciseSec = 10
+    eyesSec = 20
+    currentTime = time.strftime('%H:%M:%S')
+    
+    while (isOfficeTime(currentTime)):
+        if time() - init_water > waterSec:
+            print("Water Drinking time 'done' for stopping")
             playMusic("drink.mp3","done")
-            b = b+10
-        elif b<a.tm_sec or b>a.tm_sec:
-            print(f"iam a continue {a.tm_sec}")
-            continue
-    else:
-        break
+            init_water = time()
+            log("Drank Water at")
+        elif time() - init_exercise > exerciseSec:
+            print("Excercise time 'done' for stopping")
+            playMusic("drink.mp3","done")
+            init_exercise = time()
+            log("Done Excercise at")
+        elif time() - init_eyes > eyesSec:
+            print("Eye Excercise time 'done' for stopping")
+            playMusic("drink.mp3","done")
+            init_eyes = time()
+            log("Done Eyes exercise at")
 
-print("finished")
-# time.sleep(2)
-# eyeExer()
-# time.sleep(3)
-# physicalActivity()
+
+
+
+
+
+
+
+
+
+
+
+
 
